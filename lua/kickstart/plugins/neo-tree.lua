@@ -15,6 +15,9 @@ return {
   },
   opts = {
     filesystem = {
+      filtered_items = {
+        visible = true,
+      },
       window = {
         mappings = {
           ['\\'] = 'close_window',
@@ -22,4 +25,10 @@ return {
       },
     },
   },
+  init = function()
+    local args = vim.fn.argv()
+    if #args == 1 and vim.fn.isdirectory(args[1]) == 1 then
+      vim.cmd 'Neotree reveal'
+    end
+  end,
 }
