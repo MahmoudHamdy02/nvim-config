@@ -19,6 +19,9 @@ vim.cmd 'autocmd BufEnter * setlocal formatoptions-=cro'
 -- Command for new gnome terminal tab
 vim.api.nvim_create_user_command('Tab', '!gnome-terminal --tab', {})
 
+-- Show diagnostic messages
+vim.diagnostic.config { virtual_text = true }
+
 -- Wrap arrow keys at beginning and end of line
 vim.opt.whichwrap:append '<,>,[,]'
 
@@ -127,6 +130,8 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- Commented out for now, Tab is the same input as ctrl-i which jumps forward
 vim.keymap.set('n', '<leader><Tab>', ':BufferLineCycleNext<CR>', { silent = true, desc = 'Next buffer' })
 vim.keymap.set('n', '<leader><S-Tab>', ':BufferLineCyclePrev<CR>', { silent = true, desc = 'Previous buffer' })
+
+vim.keymap.set('n', 'gh', ':ClangdSwitchSourceHeader<CR>', { silent = true, desc = 'Switch between source and header file' })
 
 -- Close current buffer
 vim.keymap.set('n', '<leader>q', function()
@@ -777,9 +782,6 @@ require('lazy').setup({
           documentation = cmp.config.window.bordered(), -- Adds a border to the signature help popup
         },
         completion = { completeopt = 'menu,menuone,noinsert' },
-        performance = {
-          max_view_entries = 10,
-        },
 
         -- For an understanding of why these mappings were
         -- chosen, you will need to read `:help ins-completion`
@@ -904,7 +906,17 @@ require('lazy').setup({
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()
+      require('mini.surround').setup {
+
+        custom_surroundings = {
+          [')'] = { output = { left = '( ', right = ' )' } },
+          ['('] = { output = { left = '(', right = ')' } },
+          [']'] = { output = { left = '[ ', right = ' ]' } },
+          ['['] = { output = { left = '[', right = ']' } },
+          ['}'] = { output = { left = '{ ', right = ' }' } },
+          ['{'] = { output = { left = '{', right = '}' } },
+        },
+      }
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
