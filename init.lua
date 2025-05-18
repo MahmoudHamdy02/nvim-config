@@ -19,9 +19,6 @@ vim.cmd 'autocmd BufEnter * setlocal formatoptions-=cro'
 -- Command for new gnome terminal tab
 vim.api.nvim_create_user_command('Tab', '!gnome-terminal --tab', {})
 
--- Show diagnostic messages
-vim.diagnostic.config { virtual_text = true }
-
 -- Wrap arrow keys at beginning and end of line
 vim.opt.whichwrap:append '<,>,[,]'
 
@@ -131,7 +128,7 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 vim.keymap.set('n', '<leader><Tab>', ':BufferLineCycleNext<CR>', { silent = true, desc = 'Next buffer' })
 vim.keymap.set('n', '<leader><S-Tab>', ':BufferLineCyclePrev<CR>', { silent = true, desc = 'Previous buffer' })
 
-vim.keymap.set('n', 'gh', ':ClangdSwitchSourceHeader<CR>', { silent = true, desc = 'Switch between source and header file' })
+vim.keymap.set('n', 'gh', ':LspClangdSwitchSourceHeader<CR>', { silent = true, desc = 'Switch between source and header file' })
 
 -- Close current buffer
 vim.keymap.set('n', '<leader>q', function()
@@ -598,14 +595,14 @@ require('lazy').setup({
       })
 
       -- Change diagnostic symbols in the sign column (gutter)
-      -- if vim.g.have_nerd_font then
-      --   local signs = { ERROR = '', WARN = '', INFO = '', HINT = '' }
-      --   local diagnostic_signs = {}
-      --   for type, icon in pairs(signs) do
-      --     diagnostic_signs[vim.diagnostic.severity[type]] = icon
-      --   end
-      --   vim.diagnostic.config { signs = { text = diagnostic_signs } }
-      -- end
+      if vim.g.have_nerd_font then
+        local signs = { ERROR = '', WARN = '', INFO = '', HINT = '' }
+        local diagnostic_signs = {}
+        for type, icon in pairs(signs) do
+          diagnostic_signs[vim.diagnostic.severity[type]] = icon
+        end
+        vim.diagnostic.config { virtual_text = true, signs = { text = diagnostic_signs } }
+      end
 
       -- LSP servers and clients are able to communicate to each other what features they support.
       --  By default, Neovim doesn't support everything that is in the LSP specification.
@@ -779,7 +776,10 @@ require('lazy').setup({
           end,
         },
         window = {
-          documentation = cmp.config.window.bordered(), -- Adds a border to the signature help popup
+          -- completion = cmp.config.window.bordered(), -- Adds a border to the signature help popup
+          documentation = {
+            -- zindex = 1,
+          },
         },
         completion = { completeopt = 'menu,menuone,noinsert' },
 
@@ -935,6 +935,14 @@ require('lazy').setup({
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
+    end,
+  },
+  {
+    'nvim-treesitter/nvim-treesitter-context',
+    config = function()
+      require('treesitter-context').setup {
+        multiline_threshold = 1, -- Only show the context line itself
+      }
     end,
   },
   { -- Highlight, edit, and navigate code
