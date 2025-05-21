@@ -139,6 +139,13 @@ end, { desc = 'Close buffer without affecting layout' })
 vim.keymap.set('n', '<leader>[', ':BufferLineMovePrev<CR>', { silent = true, desc = 'Move buffer to the left' })
 vim.keymap.set('n', '<leader>]', ':BufferLineMoveNext<CR>', { silent = true, desc = 'Move buffer to the right' })
 
+-- Set Ctrl F to CtrlSF search
+vim.keymap.set('n', '<C-f>', ':CtrlSF ', { desc = 'Search with CtrlSF' })
+
+-- Set Ctrl JK to Page Up/Down
+vim.keymap.set('n', '<C-k>', '<PageUp>', { desc = 'Page Up' })
+vim.keymap.set('n', '<C-j>', '<PageDown>', { desc = 'Page Down' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -203,6 +210,20 @@ require('lazy').setup({
         changedelete = { text = '~' },
       },
     },
+  },
+  -- Search in files
+  {
+    'dyng/ctrlsf.vim',
+    init = function()
+      vim.g.ctrlsf_default_view_mode = 'compact'
+      vim.g.ctrlsf_auto_focus = {
+        at = 'start',
+      }
+      vim.g.ctrlsf_mapping = {
+        next = '',
+        prev = '',
+      }
+    end,
   },
 
   -- Markdown renderer
