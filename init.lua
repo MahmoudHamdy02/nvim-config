@@ -142,9 +142,9 @@ vim.keymap.set('n', '<leader>]', ':BufferLineMoveNext<CR>', { silent = true, des
 -- Set Ctrl F to CtrlSF search
 vim.keymap.set('n', '<C-f>', ':CtrlSF ', { desc = 'Search with CtrlSF' })
 
--- Set Ctrl JK to Page Up/Down
-vim.keymap.set('n', '<C-k>', '<PageUp>', { desc = 'Page Up' })
-vim.keymap.set('n', '<C-j>', '<PageDown>', { desc = 'Page Down' })
+-- Set Alt JK to Page Up/Down
+vim.keymap.set('n', '<a-k>', '<PageUp>', { desc = 'Page Up' })
+vim.keymap.set('n', '<a-j>', '<PageDown>', { desc = 'Page Down' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
