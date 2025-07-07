@@ -255,14 +255,13 @@ require('lazy').setup({
       }
     end,
   },
-
+  -- C++ definition generation
+  {
+    'eriks47/generate.nvim',
+  },
   -- Markdown renderer
   {
-    'MeanderingProgrammer/render-markdown.nvim',
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-    ---@module 'render-markdown'
-    ---@type render.md.UserConfig
-    opts = {},
+    'brianhuster/live-preview.nvim',
   },
 
   -- Git diff tool
