@@ -146,6 +146,9 @@ vim.keymap.set('n', '<C-f>', ':CtrlSF ', { desc = 'Search with CtrlSF' })
 vim.keymap.set('n', '<a-k>', '<PageUp>', { desc = 'Page Up' })
 vim.keymap.set('n', '<a-j>', '<PageDown>', { desc = 'Page Down' })
 
+-- Set Leader G to generate C++ implementation
+vim.keymap.set('n', '<leader>g', ':Generate implementations<CR>', { silent = true, desc = 'Generate C++ implementations' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -674,6 +677,7 @@ require('lazy').setup({
         clangd = {
           --cmd = {"clangd", "--fallback-style=chromium"}
         },
+        glsl_analyzer = {},
         -- gopls = {},
         pyright = {},
         -- rust_analyzer = {},
